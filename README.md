@@ -1,4 +1,4 @@
-# tiktol_clone
+# tiktok_clone
 
 A new Flutter project.
 
