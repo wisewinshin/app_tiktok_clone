@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
 class EmailScreen extends StatelessWidget {
@@ -8,16 +9,35 @@ class EmailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
         title: const Text(
           "Sign Up",
-          style: TextStyle(
-            fontSize: Sizes.size16,
-            fontWeight: FontWeight.w400,
-          ),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: Sizes.size36,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Gaps.v40,
+            Text(
+              "Create username",
+              style: TextStyle(
+                fontSize: Sizes.size24,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            Gaps.v12,
+            Text(
+              "You can always change this later",
+              style: TextStyle(
+                fontSize: Sizes.size16,
+                color: Colors.black54,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+          ],
         ),
       ),
     );
