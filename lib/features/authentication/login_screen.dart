@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
-import 'package:tiktok_clone/features/authentication/widgets/auth_botton.dart';
+import 'package:tiktok_clone/features/authentication/widgets/auth_button.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -42,14 +42,12 @@ class LoginScreen extends StatelessWidget {
               ),
               Gaps.v40,
               AuthButton(
-                onTap: _onEmailTap,
-                icon: const FaIcon(FontAwesomeIcons.user),
-                text: "Use phone or Email",
+                icon: FaIcon(FontAwesomeIcons.user),
+                text: "Use email & password",
               ),
               Gaps.v16,
               AuthButton(
-                onTap: _onEmailTap,
-                icon: const FaIcon(FontAwesomeIcons.apple),
+                icon: FaIcon(FontAwesomeIcons.apple),
                 text: "Continue with Apple",
               ),
             ],
@@ -57,7 +55,7 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade100,
+        color: Colors.grey.shade50,
         elevation: 2,
         child: Padding(
           padding: const EdgeInsets.symmetric(
