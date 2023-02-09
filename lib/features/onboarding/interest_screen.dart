@@ -57,7 +57,6 @@ class _InterestingScreenState extends State<InterestingScreen> {
   bool _showTitle = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _scrollController.addListener(_onScroll);
   }
@@ -65,7 +64,6 @@ class _InterestingScreenState extends State<InterestingScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 
