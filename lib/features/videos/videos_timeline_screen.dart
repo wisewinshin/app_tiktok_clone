@@ -29,10 +29,15 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   }
 
   void _onVideoFinished() {
+    return;
     _pageController.nextPage(
       duration: _scrollDuration,
       curve: _scrollCurve,
     );
+  }
+
+  Future<void> onRefresh() {
+    return Future.delayed(const Duration(seconds: 5));
   }
 
   @override
@@ -43,16 +48,18 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      itemBuilder: (context, index) => VieosPost(
-        onVideoFinished: _onVideoFinished,
-        index: index,
-        key: GlobalKey(),
+    return RefreshIndicator(
+      onRefresh: onRefresh,
+      child: PageView.builder(
+        itemBuilder: (context, index) => VieosPost(
+          onVideoFinished: _onVideoFinished,
+          index: index,
+        ),
+        controller: _pageController,
+        itemCount: _pageCount,
+        scrollDirection: Axis.vertical,
+        onPageChanged: _onPageChanged,
       ),
-      controller: _pageController,
-      itemCount: _pageCount,
-      scrollDirection: Axis.vertical,
-      onPageChanged: _onPageChanged,
     );
   }
 }
