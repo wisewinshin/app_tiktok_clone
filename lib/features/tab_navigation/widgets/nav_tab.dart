@@ -10,13 +10,15 @@ class NavTab extends StatelessWidget {
     required this.selectedIcon,
     required this.icon,
     required this.onTap,
+    required this.selectedIndex,
   });
 
   final String text;
   final bool isSelected;
-  final FaIcon selectedIcon;
-  final FaIcon icon;
+  final IconData selectedIcon;
+  final IconData icon;
   final Function onTap;
+  final int selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,9 @@ class NavTab extends StatelessWidget {
         onTap: () => onTap(),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0),
+            color: selectedIndex == 0
+                ? Colors.black.withOpacity(1)
+                : Colors.black.withOpacity(0),
           ),
           child: AnimatedOpacity(
             opacity: isSelected ? 1 : 0.6,
@@ -35,12 +39,15 @@ class NavTab extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                isSelected ? selectedIcon : icon,
+                FaIcon(
+                  isSelected ? selectedIcon : icon,
+                  color: selectedIndex == 0 ? Colors.white : Colors.black,
+                ),
                 Gaps.v5,
                 Text(
                   text,
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style: TextStyle(
+                    color: selectedIndex == 0 ? Colors.white : Colors.black,
                   ),
                 ),
               ],

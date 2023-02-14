@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/features/discover/discover_screen.dart';
 import 'package:tiktok_clone/features/tab_navigation/test_screen.dart';
 import 'package:tiktok_clone/features/tab_navigation/widgets/nav_tab.dart';
 import 'package:tiktok_clone/features/tab_navigation/widgets/post_video_button.dart';
@@ -53,6 +54,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Stack(
           children: [
             Offstage(
@@ -61,7 +63,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             ),
             Offstage(
               offstage: _selectedIndex != 1,
-              child: const TestScreen(),
+              child: const DiscoverScreen(),
             ),
             Offstage(
               offstage: _selectedIndex != 2,
@@ -79,7 +81,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ),
         bottomNavigationBar: BottomAppBar(
           padding: const EdgeInsets.symmetric(vertical: 8),
-          color: Colors.black,
+          color: _selectedIndex == 0 ? Colors.black : Colors.white,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -87,56 +89,37 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               NavTab(
                 text: "Home",
                 isSelected: _selectedIndex == 0,
-                selectedIcon: const FaIcon(
-                  FontAwesomeIcons.house,
-                  color: Colors.white,
-                ),
-                icon: const FaIcon(
-                  FontAwesomeIcons.house,
-                  color: Colors.white,
-                ),
+                selectedIcon: FontAwesomeIcons.house,
+                icon: FontAwesomeIcons.house,
                 onTap: () => _onTap(0),
+                selectedIndex: _selectedIndex,
               ),
               NavTab(
                 text: "Discover",
                 isSelected: _selectedIndex == 1,
-                selectedIcon: const FaIcon(
-                  FontAwesomeIcons.compass,
-                  color: Colors.white,
-                ),
-                icon: const FaIcon(
-                  FontAwesomeIcons.magnifyingGlass,
-                  color: Colors.white,
-                ),
+                selectedIcon: FontAwesomeIcons.compass,
+                icon: FontAwesomeIcons.magnifyingGlass,
                 onTap: () => _onTap(1),
+                selectedIndex: _selectedIndex,
               ),
               GestureDetector(
-                  onTap: _onPostVideoBottonTap, child: const PostVideoButton()),
+                  onTap: _onPostVideoBottonTap,
+                  child: PostVideoButton(inverted: _selectedIndex != 0)),
               NavTab(
                 text: "Inbox",
                 isSelected: _selectedIndex == 3,
-                selectedIcon: const FaIcon(
-                  FontAwesomeIcons.solidMessage,
-                  color: Colors.white,
-                ),
-                icon: const FaIcon(
-                  FontAwesomeIcons.message,
-                  color: Colors.white,
-                ),
+                selectedIcon: FontAwesomeIcons.solidMessage,
+                icon: FontAwesomeIcons.message,
                 onTap: () => _onTap(3),
+                selectedIndex: _selectedIndex,
               ),
               NavTab(
                 text: "User",
                 isSelected: _selectedIndex == 4,
-                selectedIcon: const FaIcon(
-                  FontAwesomeIcons.solidUser,
-                  color: Colors.white,
-                ),
-                icon: const FaIcon(
-                  FontAwesomeIcons.user,
-                  color: Colors.white,
-                ),
+                selectedIcon: FontAwesomeIcons.solidUser,
+                icon: FontAwesomeIcons.user,
                 onTap: () => _onTap(4),
+                selectedIndex: _selectedIndex,
               ),
             ],
           ),
