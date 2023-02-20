@@ -103,8 +103,8 @@ class _VieosPostState extends State<VieosPost>
 
   @override
   void dispose() {
-    _videoPlayerController.dispose();
     _animationController.dispose();
+    _videoPlayerController.dispose();
     super.dispose();
   }
 
