@@ -5,18 +5,43 @@ import 'package:tiktok_clone/constants/sizes.dart';
 
 class ChatDetailScreen extends StatelessWidget {
   const ChatDetailScreen({super.key});
+  final bool isIphone = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: isIphone ? true : false,
         title: ListTile(
           contentPadding: EdgeInsets.zero,
           horizontalTitleGap: Sizes.size8,
-          leading: const CircleAvatar(
-            foregroundImage: NetworkImage(
-                "https://d1telmomo28umc.cloudfront.net/media/public/avatars/wisewinshin-avatar.jpg"),
-            radius: Sizes.size24,
+          leading: Stack(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(Sizes.size4),
+                child: CircleAvatar(
+                  foregroundImage: NetworkImage(
+                      "https://d1telmomo28umc.cloudfront.net/media/public/avatars/wisewinshin-avatar.jpg"),
+                  radius: Sizes.size20,
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Container(
+                  width: Sizes.size18,
+                  height: Sizes.size18,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: Sizes.size3,
+                    ),
+                    borderRadius: BorderRadius.circular(Sizes.size24),
+                  ),
+                ),
+              ),
+            ],
           ),
           title: const Text(
             "현승",
@@ -24,8 +49,14 @@ class ChatDetailScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          subtitle: const Text("Active Now"),
-          trailing: Row(
+          subtitle: const Text(
+            "Active Now",
+            style:
+                TextStyle(fontSize: Sizes.size12, fontWeight: FontWeight.w400),
+          ),
+        ),
+        actions: [
+          Row(
             mainAxisSize: MainAxisSize.min,
             children: const [
               FaIcon(
@@ -38,16 +69,18 @@ class ChatDetailScreen extends StatelessWidget {
                 FontAwesomeIcons.ellipsis,
                 color: Colors.black,
                 size: Sizes.size20,
-              )
+              ),
+              Gaps.h24,
             ],
           ),
-        ),
+        ],
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
           Expanded(
             child: ListView.separated(
+                reverse: true,
                 padding: const EdgeInsets.symmetric(
                   vertical: Sizes.size20,
                   horizontal: Sizes.size14,
@@ -99,43 +132,59 @@ class ChatDetailScreen extends StatelessWidget {
                 separatorBuilder: (context, index) => Gaps.v10,
                 itemCount: 12),
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: BottomAppBar(
-              color: Colors.grey.shade50,
-              padding: const EdgeInsets.symmetric(
-                  vertical: Sizes.size8, horizontal: Sizes.size16),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    child: TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      autocorrect: false,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: "Send a message...",
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.grey.shade400,
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.grey.shade400,
-                          ),
-                        ),
+          BottomAppBar(
+            color: Colors.grey.shade50,
+            padding: const EdgeInsets.symmetric(
+                vertical: Sizes.size8, horizontal: Sizes.size16),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: TextField(
+                    textInputAction: TextInputAction.send,
+                    keyboardType: TextInputType.emailAddress,
+                    autocorrect: false,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: Sizes.size16,
                       ),
-                      cursorColor: Theme.of(context).primaryColor,
+                      filled: true,
+                      fillColor: Colors.white,
+                      hintText: "Send a message...",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          Sizes.size16,
+                        ),
+                        borderSide: BorderSide.none,
+                      ),
+                      suffixIcon: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          FaIcon(
+                            FontAwesomeIcons.faceLaugh,
+                            color: Colors.grey,
+                          ),
+                        ],
+                      ),
                     ),
+                    cursorColor: Theme.of(context).primaryColor,
                   ),
-                  Gaps.h10,
-                  const FaIcon(
-                    FontAwesomeIcons.paperPlane,
-                  )
-                ],
-              ),
+                ),
+                Gaps.h16,
+                Container(
+                  padding: const EdgeInsets.all(Sizes.size8),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey.shade400,
+                  ),
+                  child: const FaIcon(
+                    FontAwesomeIcons.solidPaperPlane,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
