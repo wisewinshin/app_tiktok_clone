@@ -24,7 +24,6 @@ class _VieosPostState extends State<VieosPost>
     with SingleTickerProviderStateMixin {
   late final VideoPlayerController _videoPlayerController;
   bool _isPaused = false;
-  bool _isControllerDisposed = false;
   final _animationDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController;
 
@@ -47,14 +46,13 @@ class _VieosPostState extends State<VieosPost>
   }
 
   void _onVisibilityChange(VisibilityInfo info) async {
+    if (!mounted) return;
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
       await _videoPlayerController.play();
     }
-    if (!_isControllerDisposed &&
-        _videoPlayerController.value.isPlaying &&
-        info.visibleFraction == 0) {
+    if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
       _onTogglePause();
     }
   }
@@ -108,7 +106,6 @@ class _VieosPostState extends State<VieosPost>
   void dispose() {
     _animationController.dispose();
     _videoPlayerController.dispose();
-    _isControllerDisposed = true;
     super.dispose();
   }
 
