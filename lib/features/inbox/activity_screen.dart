@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/utils/utils.dart';
 
 class ActivityScreen extends StatefulWidget {
   const ActivityScreen({super.key});
@@ -160,54 +161,55 @@ class _ActivityScreenState extends State<ActivityScreen>
                       ),
                     ),
                   ),
-                  child: ListTile(
-                    minVerticalPadding: Sizes.size16,
-                    leading: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        border: Border.all(
-                          color: Colors.grey.shade600,
-                          width: Sizes.size2,
-                        ),
-                      ),
-                      width: Sizes.size52,
-                      child: const Center(
-                        child: FaIcon(
-                          FontAwesomeIcons.bell,
-                          color: Colors.black,
-                          size: Sizes.size32,
-                        ),
-                      ),
-                    ),
-                    title: RichText(
-                      text: TextSpan(
-                        text: "Account updates:",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                          fontSize: Sizes.size16,
-                        ),
-                        children: [
-                          const TextSpan(
-                            text: " Uploade longer videos",
-                            style: TextStyle(fontWeight: FontWeight.normal),
+                  child: Builder(builder: (context) {
+                    bool isDark = isDarkMode(context);
+                    return ListTile(
+                      minVerticalPadding: Sizes.size16,
+                      leading: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: isDark ? Colors.grey.shade600 : Colors.white,
+                          border: Border.all(
+                            color: Colors.grey.shade600,
+                            width: Sizes.size2,
                           ),
-                          TextSpan(
-                            text: " $notification",
-                            style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.grey.shade400,
+                        ),
+                        width: Sizes.size52,
+                        child: const Center(
+                          child: FaIcon(
+                            FontAwesomeIcons.bell,
+                            size: Sizes.size32,
+                          ),
+                        ),
+                      ),
+                      title: RichText(
+                        text: TextSpan(
+                          text: "Account updates:",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: Sizes.size16,
+                          ),
+                          children: [
+                            const TextSpan(
+                              text: " Uploade longer videos",
+                              style: TextStyle(fontWeight: FontWeight.normal),
                             ),
-                          ),
-                        ],
+                            TextSpan(
+                              text: " $notification",
+                              style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey.shade400,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    trailing: const FaIcon(
-                      FontAwesomeIcons.chevronRight,
-                    ),
-                  ),
-                )
+                      trailing: const FaIcon(
+                        FontAwesomeIcons.chevronRight,
+                      ),
+                    );
+                  }),
+                ),
             ],
           ),
           if (_showBarrier)
@@ -219,9 +221,9 @@ class _ActivityScreenState extends State<ActivityScreen>
           SlideTransition(
             position: _panelAnimation,
             child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: Theme.of(context).appBarTheme.backgroundColor,
+                borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(Sizes.size14),
                   bottomRight: Radius.circular(Sizes.size14),
                 ),
@@ -233,9 +235,8 @@ class _ActivityScreenState extends State<ActivityScreen>
                     ListTile(
                       title: Row(
                         children: [
-                          FaIcon(
+                          Icon(
                             tab["icon"],
-                            color: Colors.black,
                             size: Sizes.size16,
                           ),
                           Gaps.h12,

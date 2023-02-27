@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
+import 'package:tiktok_clone/utils/utils.dart';
 
 class VideoComments extends StatefulWidget {
   const VideoComments({super.key});
@@ -32,6 +33,7 @@ class _VideoCommentsState extends State<VideoComments> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = isDarkMode(context);
     var size = MediaQuery.of(context).size;
     return Container(
       height: size.height * 0.8,
@@ -44,9 +46,8 @@ class _VideoCommentsState extends State<VideoComments> {
         ),
       ),
       child: Scaffold(
-        backgroundColor: Colors.grey.shade100,
+        backgroundColor: isDark ? Colors.black : null,
         appBar: AppBar(
-          backgroundColor: Colors.grey.shade100,
           title: const Text("1233 comment"),
           automaticallyImplyLeading: false,
           actions: [
@@ -128,7 +129,6 @@ class _VideoCommentsState extends State<VideoComments> {
                     vertical: Sizes.size8,
                     horizontal: Sizes.size16,
                   ),
-                  color: Colors.white,
                   child: Row(
                     children: [
                       const CircleAvatar(
@@ -154,7 +154,7 @@ class _VideoCommentsState extends State<VideoComments> {
                                 borderSide: BorderSide.none,
                               ),
                               filled: true,
-                              fillColor: Colors.grey.shade200,
+                              fillColor: isDark ? null : Colors.grey.shade200,
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: Sizes.size8,
                                 horizontal: Sizes.size12,
