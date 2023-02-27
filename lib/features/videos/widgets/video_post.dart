@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/breakpoint.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_comments.dart';
@@ -96,6 +97,7 @@ class _VieosPostState extends State<VieosPost>
       isPlayed = false;
     }
     await showModalBottomSheet(
+      constraints: const BoxConstraints(maxWidth: Breakpoints.sm),
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       context: context,

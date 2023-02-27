@@ -24,103 +24,108 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         title: const Text("Settings"),
       ),
-      body: ListView(
-        children: [
-          SwitchListTile.adaptive(
-            value: _notifications,
-            onChanged: _onNotificationsChanged,
-            title: const Text(
-              "Enable notifications",
-            ),
-          ),
-          ListTile(
-            onTap: () async {
-              if (!mounted) return;
-              final date = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2021),
-                lastDate: DateTime(2024),
-              );
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: ListView(
+            children: [
+              SwitchListTile.adaptive(
+                value: _notifications,
+                onChanged: _onNotificationsChanged,
+                title: const Text(
+                  "Enable notifications",
+                ),
+              ),
+              ListTile(
+                onTap: () async {
+                  if (!mounted) return;
+                  final date = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2021),
+                    lastDate: DateTime(2024),
+                  );
 
-              print(date);
+                  print(date);
 
-              if (!mounted) return;
-              final time = await showTimePicker(
-                context: context,
-                initialTime: TimeOfDay.now(),
-              );
+                  if (!mounted) return;
+                  final time = await showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                  );
 
-              print(time);
+                  print(time);
 
-              if (!mounted) return;
-              final booking = await showDateRangePicker(
-                context: context,
-                firstDate: DateTime(2021),
-                lastDate: DateTime(2024),
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData(
-                      appBarTheme: const AppBarTheme(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.black,
-                      ),
+                  if (!mounted) return;
+                  final booking = await showDateRangePicker(
+                    context: context,
+                    firstDate: DateTime(2021),
+                    lastDate: DateTime(2024),
+                    builder: (context, child) {
+                      return Theme(
+                        data: ThemeData(
+                          appBarTheme: const AppBarTheme(
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.black,
+                          ),
+                        ),
+                        child: child!,
+                      );
+                    },
+                  );
+
+                  print(booking);
+                },
+                title: const Text(
+                  "What is your birthday?",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                subtitle: const Text("About this app..."),
+              ),
+              ListTile(
+                onTap: () {
+                  showCupertinoDialog(
+                    context: context,
+                    builder: (context) => CupertinoAlertDialog(
+                      title: const Text("Hi"),
+                      content: const Text("Hello"),
+                      actions: [
+                        CupertinoDialogAction(
+                          onPressed: () => Navigator.of(context).pop(),
+                          isDestructiveAction: true,
+                          child: const Text("yes"),
+                        ),
+                        CupertinoDialogAction(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: const Text("no"),
+                        ),
+                      ],
                     ),
-                    child: child!,
                   );
                 },
-              );
-
-              print(booking);
-            },
-            title: const Text(
-              "What is your birthday?",
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
+                title: const Text("Log out"),
               ),
-            ),
-            subtitle: const Text("About this app..."),
-          ),
-          ListTile(
-            onTap: () {
-              showCupertinoDialog(
-                context: context,
-                builder: (context) => CupertinoAlertDialog(
-                  title: const Text("Hi"),
-                  content: const Text("Hello"),
-                  actions: [
-                    CupertinoDialogAction(
-                      onPressed: () => Navigator.of(context).pop(),
-                      isDestructiveAction: true,
-                      child: const Text("yes"),
+              ListTile(
+                onTap: () {
+                  showCupertinoModalPopup(
+                    context: context,
+                    builder: (context) => CupertinoActionSheet(
+                      title: const Text("Hi"),
+                      actions: [
+                        CupertinoActionSheetAction(
+                            onPressed: () {}, child: const Text("asd"))
+                      ],
                     ),
-                    CupertinoDialogAction(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: const Text("no"),
-                    ),
-                  ],
-                ),
-              );
-            },
-            title: const Text("Log out"),
+                  );
+                },
+                title: const Text("Log out(bottom)"),
+              ),
+              const AboutListTile()
+            ],
           ),
-          ListTile(
-            onTap: () {
-              showCupertinoModalPopup(
-                context: context,
-                builder: (context) => CupertinoActionSheet(
-                  title: const Text("Hi"),
-                  actions: [
-                    CupertinoActionSheetAction(
-                        onPressed: () {}, child: const Text("asd"))
-                  ],
-                ),
-              );
-            },
-            title: const Text("Log out(bottom)"),
-          ),
-          const AboutListTile()
-        ],
+        ),
       ),
     );
   }

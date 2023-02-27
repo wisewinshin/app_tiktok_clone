@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_clone/constants/breakpoint.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
 class PersistentTabBar extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final size = MediaQuery.of(context).size;
     return Container(
+      alignment: Alignment.center,
       padding: const EdgeInsets.only(
         top: Sizes.size10,
       ),
@@ -18,21 +21,27 @@ class PersistentTabBar extends SliverPersistentHeaderDelegate {
           ),
         ),
       ),
-      child: const TabBar(
+      child: TabBar(
+        indicatorPadding: const EdgeInsets.symmetric(horizontal: Sizes.size8),
+        isScrollable: size.width > Breakpoints.sm,
         indicatorSize: TabBarIndicatorSize.label,
-        labelPadding: EdgeInsets.only(
+        labelPadding: const EdgeInsets.only(
           bottom: Sizes.size10,
         ),
         indicatorColor: Colors.black,
         labelColor: Colors.black,
         tabs: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: Sizes.size10),
-            child: Icon(Icons.grid_4x4_rounded),
+            padding: size.width > Breakpoints.sm
+                ? const EdgeInsets.symmetric(horizontal: Sizes.size36)
+                : const EdgeInsets.symmetric(horizontal: Sizes.size10),
+            child: const Icon(Icons.grid_4x4_rounded),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: Sizes.size10),
-            child: FaIcon(FontAwesomeIcons.heart),
+            padding: size.width > Breakpoints.sm
+                ? const EdgeInsets.symmetric(horizontal: Sizes.size36)
+                : const EdgeInsets.symmetric(horizontal: Sizes.size10),
+            child: const FaIcon(FontAwesomeIcons.heart),
           ),
         ],
       ),

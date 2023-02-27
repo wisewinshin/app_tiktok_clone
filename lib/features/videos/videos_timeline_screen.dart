@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_post.dart';
 
 class VideoTimelineScreen extends StatefulWidget {
@@ -47,12 +48,18 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     return RefreshIndicator(
+      color: Colors.black,
+      backgroundColor: Colors.black,
       onRefresh: onRefresh,
       child: PageView.builder(
-        itemBuilder: (context, index) => VieosPost(
-          onVideoFinished: _onVideoFinished,
-          index: index,
+        itemBuilder: (context, index) => Container(
+          color: Colors.black,
+          child: VieosPost(
+            onVideoFinished: _onVideoFinished,
+            index: index,
+          ),
         ),
         controller: _pageController,
         itemCount: _pageCount,
