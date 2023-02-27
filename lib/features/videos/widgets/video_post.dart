@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
@@ -24,6 +25,7 @@ class _VieosPostState extends State<VieosPost>
     with SingleTickerProviderStateMixin {
   late final VideoPlayerController _videoPlayerController;
   bool _isPaused = false;
+  bool _isMuted = false;
   final _animationDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController;
 
@@ -41,6 +43,10 @@ class _VieosPostState extends State<VieosPost>
         VideoPlayerController.asset("assets/videos/video.mp4");
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
+    if (kIsWeb) {
+      await _videoPlayerController.setVolume(0);
+      _isMuted = true;
+    }
     setState(() {});
     _videoPlayerController.addListener(_onVideoChanged);
   }
@@ -68,6 +74,17 @@ class _VieosPostState extends State<VieosPost>
     setState(() {
       _isPaused = !_isPaused;
     });
+  }
+
+  void _onMuteTap() {
+    if (_videoPlayerController.value.volume == 0) {
+      _videoPlayerController.setVolume(0.5);
+      _isMuted = false;
+    } else {
+      _videoPlayerController.setVolume(0);
+      _isMuted = true;
+    }
+    setState(() {});
   }
 
   void _onCommentsTap(BuildContext context) async {
@@ -182,12 +199,27 @@ class _VieosPostState extends State<VieosPost>
             right: 10,
             child: Column(
               children: [
+                IconButton(
+                  onPressed: _onMuteTap,
+                  icon: _isMuted
+                      ? const FaIcon(
+                          FontAwesomeIcons.volumeXmark,
+                          size: Sizes.size32,
+                          color: Colors.white,
+                        )
+                      : const FaIcon(
+                          FontAwesomeIcons.volumeHigh,
+                          size: Sizes.size32,
+                          color: Colors.white,
+                        ),
+                ),
+                Gaps.v24,
                 const CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.black,
                   foregroundImage: NetworkImage(
                       "https://avatars.githubusercontent.com/u/92836658?v=4"),
-                  child: Text("ㅁㄴㅇㄹ"),
+                  child: Text(""),
                 ),
                 Gaps.v24,
                 const VideoVariantButton(
