@@ -6,6 +6,8 @@ import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
 import 'package:tiktok_clone/features/onboarding/interest_screen.dart';
 
 class BirthdayScreen extends StatefulWidget {
+  static String routeURL = "/birthday";
+  static String routeName = "birthday";
   const BirthdayScreen({super.key});
 
   @override

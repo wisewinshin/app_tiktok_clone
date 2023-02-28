@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:tiktok_clone/features/authentication/sign_up_screen.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
+import 'package:tiktok_clone/router.dart';
 import 'package:tiktok_clone/utils/dark_theme.dart';
 import 'package:tiktok_clone/utils/light_theme_data.dart';
 
@@ -18,7 +18,8 @@ class TikTokApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       title: 'TikTok Clone',
       localizationsDelegates: const [
@@ -34,7 +35,6 @@ class TikTokApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       darkTheme: darkThemeData(),
       theme: lightThemeData(),
-      home: const SignUpScreen(),
     );
   }
 }

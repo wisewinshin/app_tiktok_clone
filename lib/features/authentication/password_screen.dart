@@ -6,6 +6,7 @@ import 'package:tiktok_clone/features/authentication/birthday_screen.dart';
 import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
 
 class PasswordScreen extends StatefulWidget {
+  static String routeURL = "/password";
   const PasswordScreen({super.key});
 
   @override

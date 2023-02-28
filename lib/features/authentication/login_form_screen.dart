@@ -5,6 +5,8 @@ import 'package:tiktok_clone/features/authentication/widgets/form_button.dart';
 import 'package:tiktok_clone/features/onboarding/interest_screen.dart';
 
 class LoginFormScreen extends StatefulWidget {
+  static String routeURL = "/loginform";
+  static String routeName = "loginform";
   const LoginFormScreen({super.key});
 
   @override
