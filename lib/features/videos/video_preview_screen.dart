@@ -47,10 +47,8 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
     _initVideo();
   }
 
-
   @override
   void dispose() {
-    _videoPlayerController.pause();
     _videoPlayerController.dispose();
     super.dispose();
   }
