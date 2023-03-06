@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_clone/features/discover/discover_screen.dart';
 import 'package:tiktok_clone/features/inbox/inbox_screent.dart';
 import 'package:tiktok_clone/features/tab_navigation/test_screen.dart';
@@ -10,17 +11,31 @@ import 'package:tiktok_clone/features/videos/videos_timeline_screen.dart';
 import 'package:tiktok_clone/utils/utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({super.key});
+  static const String routeName = "mainNavigation";
+  final String tab;
+  const MainNavigationScreen({
+    super.key,
+    required this.tab,
+  });
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 4;
+  final List<String> _tabs = [
+    "home",
+    "discover",
+    "xxx",
+    "inbox",
+    "profile",
+  ];
+
+  late int _selectedIndex = _tabs.indexOf(widget.tab);
 
   void _onTap(int index) {
     if (index != _selectedIndex) {
+      context.go("/${_tabs[index]}");
       setState(() {
         _selectedIndex = index;
       });
