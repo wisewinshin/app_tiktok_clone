@@ -38,7 +38,6 @@ ThemeData lightThemeData() {
     textSelectionTheme: const TextSelectionThemeData(
       cursorColor: Color(0xFFE9435A),
     ),
-    splashColor: Colors.transparent,
     appBarTheme: const AppBarTheme(
       centerTitle: true,
       scrolledUnderElevation: 1,
