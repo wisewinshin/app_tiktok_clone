@@ -20,6 +20,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   bool _hasPermissons = false;
   bool _isSelfieMode = false;
   late FlashMode _flashMode;
+  late double _currentZoom;
+  late double _maxZoom;
+  late double _minZoom;
 
   late final AnimationController _animationController = AnimationController(
     vsync: this,
@@ -84,6 +87,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     await _cameraController.initialize();
     await _cameraController.prepareForVideoRecording(); //애플전용
     _flashMode = _cameraController.value.flashMode;
+    _maxZoom = await _cameraController.getMaxZoomLevel();
+    _minZoom = await _cameraController.getMinZoomLevel();
+    _currentZoom = (_maxZoom + _minZoom) / 5;
     setState(() {});
   }
 
@@ -173,6 +179,19 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     );
   }
 
+  void _changeCameraZoom(DragUpdateDetails details) async {
+    if (details.localPosition.dy >= 0) {
+      if (_currentZoom + (-details.localPosition.dy * 0.05) < _minZoom) return;
+      _cameraController
+          .setZoomLevel(_currentZoom + (-details.localPosition.dy * 0.05));
+    }
+    if (details.localPosition.dy < 0) {
+      if (_currentZoom + (-details.localPosition.dy * 0.005) > _maxZoom) return;
+      _cameraController
+          .setZoomLevel(_currentZoom + (-details.localPosition.dy * 0.005));
+    }
+  }
+
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
     if (!_cameraController.value.isInitialized) return;
@@ -235,6 +254,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                       children: [
                         const Spacer(),
                         GestureDetector(
+                          onPanUpdate: _changeCameraZoom,
                           onTapDown: _startRecording,
                           onTapUp: (detail) => _stopRecording(),
                           child: ScaleTransition(
