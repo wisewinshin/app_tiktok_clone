@@ -5,9 +5,11 @@ import 'package:tiktok_clone/utils/utils.dart';
 
 class PostVideoButton extends StatefulWidget {
   final bool inverted;
+  final VoidCallback onTap;
   const PostVideoButton({
     super.key,
     required this.inverted,
+    required this.onTap,
   });
 
   @override
@@ -42,6 +44,7 @@ class _PostVideoButtonState extends State<PostVideoButton> {
       onTapDown: _onTapDown,
       onTapUp: _onTapUp,
       onTapCancel: _onTapCancel,
+      onTap: widget.onTap,
       child: AnimatedScale(
         curve: Curves.easeIn,
         scale: isHover ? 1.1 : 1,

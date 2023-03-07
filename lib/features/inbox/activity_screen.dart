@@ -5,6 +5,8 @@ import 'package:tiktok_clone/constants/sizes.dart';
 import 'package:tiktok_clone/utils/utils.dart';
 
 class ActivityScreen extends StatefulWidget {
+  static const String routeName = "activity";
+  static const String routeURL = "/activity";
   const ActivityScreen({super.key});
 
   @override
@@ -185,9 +187,10 @@ class _ActivityScreenState extends State<ActivityScreen>
                       title: RichText(
                         text: TextSpan(
                           text: "Account updates:",
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: Sizes.size16,
+                            color: isDark ? Colors.white : Colors.grey.shade600,
                           ),
                           children: [
                             const TextSpan(

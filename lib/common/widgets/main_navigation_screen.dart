@@ -7,6 +7,7 @@ import 'package:tiktok_clone/features/tab_navigation/test_screen.dart';
 import 'package:tiktok_clone/features/tab_navigation/widgets/nav_tab.dart';
 import 'package:tiktok_clone/features/tab_navigation/widgets/post_video_button.dart';
 import 'package:tiktok_clone/features/users/user_profile_screen.dart';
+import 'package:tiktok_clone/features/videos/video_recording_screen.dart';
 import 'package:tiktok_clone/features/videos/videos_timeline_screen.dart';
 import 'package:tiktok_clone/utils/utils.dart';
 
@@ -43,12 +44,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   void _onPostVideoBottonTap() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => Container(),
-        fullscreenDialog: true,
-      ),
-    );
+    context.pushNamed(VideoRecordingScreen.routeName);
   }
 
   @override
@@ -104,9 +100,10 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 onTap: () => _onTap(1),
                 selectedIndex: _selectedIndex,
               ),
-              GestureDetector(
-                  onTap: _onPostVideoBottonTap,
-                  child: PostVideoButton(inverted: _selectedIndex != 0)),
+              PostVideoButton(
+                inverted: _selectedIndex != 0,
+                onTap: _onPostVideoBottonTap,
+              ),
               NavTab(
                 text: "Inbox",
                 isSelected: _selectedIndex == 3,

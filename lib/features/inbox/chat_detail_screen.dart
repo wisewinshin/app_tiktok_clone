@@ -4,7 +4,10 @@ import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
 
 class ChatDetailScreen extends StatelessWidget {
-  const ChatDetailScreen({super.key});
+  static const String routeName = "chatDetail";
+  static const String routeURL = ":chatId";
+  final String chatId;
+  const ChatDetailScreen({super.key, required this.chatId});
   final bool isIphone = false;
 
   @override
@@ -43,9 +46,9 @@ class ChatDetailScreen extends StatelessWidget {
               ),
             ],
           ),
-          title: const Text(
-            "현승",
-            style: TextStyle(
+          title: Text(
+            chatId,
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
