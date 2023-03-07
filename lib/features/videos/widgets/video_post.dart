@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:tiktok_clone/common/widgets/configs/video_config.dart';
 import 'package:tiktok_clone/constants/breakpoint.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
@@ -202,8 +204,8 @@ class _VieosPostState extends State<VieosPost>
             child: Column(
               children: [
                 IconButton(
-                  onPressed: _onMuteTap,
-                  icon: _isMuted
+                  onPressed: () => context.read<VideoConfig>().toggleIsMuted(),
+                  icon: context.watch<VideoConfig>().isMuted
                       ? const FaIcon(
                           FontAwesomeIcons.volumeXmark,
                           size: Sizes.size32,

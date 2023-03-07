@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:tiktok_clone/common/widgets/configs/mode_config.dart';
+import 'package:provider/provider.dart';
+import 'package:tiktok_clone/common/widgets/configs/app_config.dart';
+import 'package:tiktok_clone/common/widgets/configs/video_config.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -22,19 +24,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
           constraints: const BoxConstraints(maxWidth: 600),
           child: ListView(
             children: [
-              ValueListenableBuilder(
-                valueListenable: darkMode,
-                builder: (context, value, child) {
-                  return SwitchListTile.adaptive(
-                    value: value,
-                    onChanged: (value) {
-                      darkMode.value = !darkMode.value;
-                    },
-                    title: const Text(
-                      "Toggle Dark Mode",
-                    ),
-                  );
-                },
+              SwitchListTile.adaptive(
+                value: context.watch<AppConfig>().isDarkMode,
+                onChanged: (value) =>
+                    context.read<AppConfig>().toggleDarkMode(),
+                title: const Text("Aute Mute"),
+                subtitle: const Text("Videos muted by default."),
+              ),
+              SwitchListTile.adaptive(
+                value: context.watch<VideoConfig>().isMuted,
+                onChanged: (value) =>
+                    context.read<VideoConfig>().toggleIsMuted(),
+                title: const Text("Aute Mute"),
+                subtitle: const Text("Videos muted by default."),
               ),
               ListTile(
                 onTap: () async {
