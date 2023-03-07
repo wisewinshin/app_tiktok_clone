@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:tiktok_clone/common/widgets/configs/mode_config.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -10,15 +11,6 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _notifications = false;
-
-  void _onNotificationsChanged(bool? newValue) {
-    if (newValue == null) return;
-    setState(() {
-      _notifications = newValue;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,12 +22,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
           constraints: const BoxConstraints(maxWidth: 600),
           child: ListView(
             children: [
-              SwitchListTile.adaptive(
-                value: _notifications,
-                onChanged: _onNotificationsChanged,
-                title: const Text(
-                  "Enable notifications",
-                ),
+              ValueListenableBuilder(
+                valueListenable: darkMode,
+                builder: (context, value, child) {
+                  return SwitchListTile.adaptive(
+                    value: value,
+                    onChanged: (value) {
+                      darkMode.value = !darkMode.value;
+                    },
+                    title: const Text(
+                      "Toggle Dark Mode",
+                    ),
+                  );
+                },
               ),
               ListTile(
                 onTap: () async {
