@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tiktok_clone/common/widgets/configs/app_config.dart';
-import 'package:tiktok_clone/common/widgets/configs/video_config.dart';
+import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -28,14 +28,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 value: context.watch<AppConfig>().isDarkMode,
                 onChanged: (value) =>
                     context.read<AppConfig>().toggleDarkMode(),
-                title: const Text("Aute Mute"),
+                title: const Text("toggle DarkMode"),
+                subtitle: const Text("Lightmode by default."),
+              ),
+              SwitchListTile.adaptive(
+                value: context.watch<PlaybackConfigViewModel>().isMuted,
+                onChanged: (value) =>
+                    context.read<PlaybackConfigViewModel>().setMuted(value),
+                title: const Text("Auto Mute"),
                 subtitle: const Text("Videos muted by default."),
               ),
               SwitchListTile.adaptive(
-                value: context.watch<VideoConfig>().isMuted,
+                value: context.watch<PlaybackConfigViewModel>().isAutoplay,
                 onChanged: (value) =>
-                    context.read<VideoConfig>().toggleIsMuted(),
-                title: const Text("Aute Mute"),
+                    context.read<PlaybackConfigViewModel>().setAutoplay(value),
+                title: const Text("Auto Play"),
                 subtitle: const Text("Videos muted by default."),
               ),
               ListTile(
