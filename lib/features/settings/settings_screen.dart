@@ -1,20 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tiktok_clone/common/widgets/configs/app_config.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Settings"),
@@ -31,20 +25,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 subtitle: const Text("Lightmode by default."),
               ),
               SwitchListTile.adaptive(
-                value: false,
-                onChanged: (value) {},
+                value: ref.watch(playbackConfigProvider).isAutoplay,
+                onChanged: (value) => ref
+                    .read(playbackConfigProvider.notifier)
+                    .setAutoplay(value),
                 title: const Text("Auto Mute"),
                 subtitle: const Text("Videos muted by default."),
               ),
               SwitchListTile.adaptive(
-                value: false,
-                onChanged: (value) {},
+                value: ref.watch(playbackConfigProvider).isMuted,
+                onChanged: (value) {
+                  ref.read(playbackConfigProvider.notifier).setMuted(value);
+                },
                 title: const Text("Auto Play"),
                 subtitle: const Text("Videos muted by default."),
               ),
               ListTile(
                 onTap: () async {
-                  if (!mounted) return;
                   final date = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
@@ -56,36 +53,37 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     print(date);
                   }
 
-                  if (!mounted) return;
-                  final time = await showTimePicker(
-                    context: context,
-                    initialTime: TimeOfDay.now(),
-                  );
-
-                  if (kDebugMode) {
-                    print(time);
+                  if (context.mounted) {
+                    final time = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+                    if (kDebugMode) {
+                      print(time);
+                    }
                   }
 
-                  if (!mounted) return;
-                  final booking = await showDateRangePicker(
-                    context: context,
-                    firstDate: DateTime(2021),
-                    lastDate: DateTime(2024),
-                    builder: (context, child) {
-                      return Theme(
-                        data: ThemeData(
-                          appBarTheme: const AppBarTheme(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.black,
+                  if (context.mounted) {
+                    final booking = await showDateRangePicker(
+                      context: context,
+                      firstDate: DateTime(2021),
+                      lastDate: DateTime(2024),
+                      builder: (context, child) {
+                        return Theme(
+                          data: ThemeData(
+                            appBarTheme: const AppBarTheme(
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.black,
+                            ),
                           ),
-                        ),
-                        child: child!,
-                      );
-                    },
-                  );
+                          child: child!,
+                        );
+                      },
+                    );
 
-                  if (kDebugMode) {
-                    print(booking);
+                    if (kDebugMode) {
+                      print(booking);
+                    }
                   }
                 },
                 title: const Text(

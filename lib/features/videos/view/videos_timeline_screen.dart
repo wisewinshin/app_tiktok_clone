@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tiktok_clone/features/videos/view_models/time_line_vm.dart';
 import 'package:tiktok_clone/features/videos/widgets/video_post.dart';
 
-class VideoTimelineScreen extends StatefulWidget {
+class VideoTimelineScreen extends ConsumerStatefulWidget {
   const VideoTimelineScreen({super.key});
 
   @override
-  State<VideoTimelineScreen> createState() => _VideoTimelineScreenState();
+  VideoTimelineScreenState createState() => VideoTimelineScreenState();
 }
 
-class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
+class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
   final _scrollDuration = const Duration(milliseconds: 200);
   final _scrollCurve = Curves.linear;
 
@@ -49,23 +51,31 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-    return RefreshIndicator(
-      color: Colors.black,
-      backgroundColor: Colors.black,
-      onRefresh: onRefresh,
-      child: PageView.builder(
-        itemBuilder: (context, index) => Container(
-          color: Colors.black,
-          child: VieosPost(
-            onVideoFinished: _onVideoFinished,
-            index: index,
+    return ref.watch(timeLineProvider).when(
+          data: (videos) => RefreshIndicator(
+            color: Colors.black,
+            backgroundColor: Colors.black,
+            onRefresh: onRefresh,
+            child: PageView.builder(
+              itemBuilder: (context, index) => Container(
+                color: Colors.black,
+                child: VieosPost(
+                  onVideoFinished: _onVideoFinished,
+                  index: index,
+                ),
+              ),
+              controller: _pageController,
+              itemCount: videos.length,
+              scrollDirection: Axis.vertical,
+              onPageChanged: _onPageChanged,
+            ),
           ),
-        ),
-        controller: _pageController,
-        itemCount: _pageCount,
-        scrollDirection: Axis.vertical,
-        onPageChanged: _onPageChanged,
-      ),
-    );
+          error: (error, stackTrace) => Center(
+            child: Text("$error"),
+          ),
+          loading: () => const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
   }
 }

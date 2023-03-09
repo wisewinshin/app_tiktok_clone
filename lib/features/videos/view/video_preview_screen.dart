@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:tiktok_clone/features/videos/view_models/time_line_vm.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoPreviewScreen extends StatefulWidget {
+class VideoPreviewScreen extends ConsumerStatefulWidget {
   final bool isPicked;
   final XFile videos;
   const VideoPreviewScreen({
@@ -16,10 +18,10 @@ class VideoPreviewScreen extends StatefulWidget {
   });
 
   @override
-  State<VideoPreviewScreen> createState() => _VideoPreviewScreenState();
+  VideoPreviewScreenState createState() => VideoPreviewScreenState();
 }
 
-class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
+class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
   late final VideoPlayerController _videoPlayerController;
 
   Future<void> _initVideo() async {
@@ -38,6 +40,10 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
   Future<void> _initPermission() async {
     final PermissionStatus storagePermission =
         await Permission.storage.request();
+  }
+
+  void _uploadVideo() {
+    ref.read(timeLineProvider.notifier).uploadVideo();
   }
 
   @override
@@ -65,7 +71,14 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
               icon: const Icon(
                 FontAwesomeIcons.floppyDisk,
               ),
-            )
+            ),
+          IconButton(
+            onPressed:
+                ref.watch(timeLineProvider).isLoading ? null : _uploadVideo,
+            icon: ref.watch(timeLineProvider).isLoading
+                ? const CircularProgressIndicator.adaptive()
+                : const Icon(FontAwesomeIcons.upload),
+          )
         ],
       ),
       body: _videoPlayerController.value.isInitialized

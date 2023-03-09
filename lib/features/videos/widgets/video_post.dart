@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:tiktok_clone/constants/breakpoint.dart';
 import 'package:tiktok_clone/constants/gaps.dart';
 import 'package:tiktok_clone/constants/sizes.dart';
@@ -11,7 +11,7 @@ import 'package:tiktok_clone/features/videos/widgets/video_variant_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class VieosPost extends StatefulWidget {
+class VieosPost extends ConsumerStatefulWidget {
   final Function onVideoFinished;
   final int index;
   const VieosPost({
@@ -21,16 +21,16 @@ class VieosPost extends StatefulWidget {
   });
 
   @override
-  State<VieosPost> createState() => _VieosPostState();
+  VieosPostState createState() => VieosPostState();
 }
 
-class _VieosPostState extends State<VieosPost>
+class VieosPostState extends ConsumerState<VieosPost>
     with SingleTickerProviderStateMixin {
   late final VideoPlayerController _videoPlayerController;
   bool _isPaused = false;
   final _animationDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController;
-  late bool isMuted = false;
+  late bool isMuted = ref.read(playbackConfigProvider).isMuted;
 
   void _onVideoChanged() {
     if (_videoPlayerController.value.isInitialized) {
@@ -46,7 +46,7 @@ class _VieosPostState extends State<VieosPost>
         VideoPlayerController.asset("assets/videos/video.mp4");
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
-    if (mounted) return;
+    if (!mounted) return;
     if (kIsWeb || isMuted) {
       await _videoPlayerController.setVolume(0);
     }
@@ -58,7 +58,8 @@ class _VieosPostState extends State<VieosPost>
     if (!mounted) return;
     if (info.visibleFraction == 1 &&
         !_isPaused &&
-        !_videoPlayerController.value.isPlaying ) {
+        !_videoPlayerController.value.isPlaying &&
+        ref.read(playbackConfigProvider).isAutoplay) {
       await _videoPlayerController.play();
     }
     if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
@@ -70,13 +71,16 @@ class _VieosPostState extends State<VieosPost>
     if (_videoPlayerController.value.isPlaying) {
       _videoPlayerController.pause();
       _animationController.reverse();
+      setState(() {
+        _isPaused = true;
+      });
     } else {
       _videoPlayerController.play();
       _animationController.forward();
+      setState(() {
+        _isPaused = false;
+      });
     }
-    setState(() {
-      _isPaused = !_isPaused;
-    });
   }
 
   void _onMuteTap() {

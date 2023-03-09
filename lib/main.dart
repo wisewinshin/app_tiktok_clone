@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tiktok_clone/common/widgets/configs/app_config.dart';
 import 'package:tiktok_clone/features/videos/repos/playback_config_repo.dart';
 import 'package:tiktok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_clone/generated/l10n.dart';
@@ -18,7 +16,14 @@ void main() async {
   await S.load(const Locale("ko"));
   final preferences = await SharedPreferences.getInstance();
   final repo = PlaybackConfigRepo(preferences);
-  runApp(const ProviderScope(child: TikTokApp()));
+  runApp(
+    ProviderScope(
+      overrides: [
+        playbackConfigProvider.overrideWith(() => PlaybackConfigViewModel(repo))
+      ],
+      child: const TikTokApp(),
+    ),
+  );
 }
 
 class TikTokApp extends StatelessWidget {
