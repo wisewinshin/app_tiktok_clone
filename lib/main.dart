@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tiktok_clone/common/widgets/configs/app_config.dart';
@@ -17,17 +18,7 @@ void main() async {
   await S.load(const Locale("ko"));
   final preferences = await SharedPreferences.getInstance();
   final repo = PlaybackConfigRepo(preferences);
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(
-        create: (context) => AppConfig(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => PlaybackConfigViewModel(repo),
-      )
-    ],
-    child: const TikTokApp(),
-  ));
+  runApp(const ProviderScope(child: TikTokApp()));
 }
 
 class TikTokApp extends StatelessWidget {
@@ -49,9 +40,7 @@ class TikTokApp extends StatelessWidget {
         Locale("en"),
         Locale("ko"),
       ],
-      themeMode: context.watch<AppConfig>().isDarkMode
-          ? ThemeMode.dark
-          : ThemeMode.light,
+      themeMode: ThemeMode.light,
       darkTheme: darkThemeData(),
       theme: lightThemeData(),
     );

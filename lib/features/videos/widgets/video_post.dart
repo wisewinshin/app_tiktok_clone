@@ -30,7 +30,7 @@ class _VieosPostState extends State<VieosPost>
   bool _isPaused = false;
   final _animationDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController;
-  late bool isMuted = context.read<PlaybackConfigViewModel>().isMuted;
+  late bool isMuted = false;
 
   void _onVideoChanged() {
     if (_videoPlayerController.value.isInitialized) {
@@ -58,8 +58,7 @@ class _VieosPostState extends State<VieosPost>
     if (!mounted) return;
     if (info.visibleFraction == 1 &&
         !_isPaused &&
-        !_videoPlayerController.value.isPlaying &&
-        context.read<PlaybackConfigViewModel>().isAutoplay) {
+        !_videoPlayerController.value.isPlaying ) {
       await _videoPlayerController.play();
     }
     if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
